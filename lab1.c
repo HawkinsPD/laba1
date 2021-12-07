@@ -39,18 +39,18 @@ int isOperator(char string[]) {
 }
 
 
-void NoArgs() {
+void noArgs() {
     printf("No args, enter -h\n");
 }
 
-void Help() {
+void help() {
     printf("Enter -t to get data type size\n"
            "Enter -c to get a simple calc(ex.: 2 + 2)\n"
            "Enter -x as end argument to get hexadecimal output\n"
            "Enter -o as end argument to get octal output\n");
 }
 
-void Table() {
+void table() {
     printf("char: %8lu \n", sizeof(char));
     printf("int: %9lu \n", sizeof(int));
     printf("float: %7lu \n", sizeof(float));
@@ -61,71 +61,69 @@ void Table() {
     printf("short: %7lu \n", sizeof(short));
 }
 
-void Calc(int a,int b ,char operator) {
-    int result;
-    if ( strcmp(&operator, "+") == 0 ) {
+float calc(int a,int b ,char* operator) {
+     float result;
+    if ( strcmp(operator, "+") == 0) {
         result = a + b;
-    }
-    else if( strcmp(&operator, "-") == 0 ) {
+    } else if( strcmp(operator, "-") == 0) {
         result = a - b;
-    }
-    else if( strcmp(&operator, "*") == 0 ) {
+    } else if( strcmp(operator, "*") == 0) {
         result = a * b;
-    }
-    else if( strcmp(&operator, "/") == 0 ) {
+    } else if( strcmp(operator, "/") == 0) {
         if ( b == 0 ) {
             printf("Can't divide by 0\n");
-            return;
-        }
-        else{
+            return (0);
+        } else{
             result = a / b;
         }
         
         
     }
-    printf("%d", result);
+    //printf("%d", result);
+    return result;
 }
 
 
-void Hex() {
-    printf("%p",Calc);
-}
-
-
-void Octal() {
-    printf("%o",Calc);
-}
+//void hex() {
+//    return calc(num1, num2, operator);
+//}
+//
+//
+//void octal() {
+//    printf("%o",calc(num1, num2, operator));
+//}
 
 
 int main(int argc, char *argv[]) {
     
+    float num1 = ((float)*argv[2]) - 48;
+    float num2 = ((float)*argv[4]) - 48;
+    char operator = *argv[3];
+    
     if (argc == 1) {
-        NoArgs();
+        noArgs();
     }
  
     else if (argc == 2) {
         if (strcmp(argv[1], "-h") == 0) {
-            Help();
-        }
-        else if (strcmp(argv[1], "-t") == 0) {
-            Table();
+            help();
+        } else if (strcmp(argv[1], "-t") == 0) {
+            table();
         }
     }
 
-
     else if (argc == 5 && strcmp(argv[1], "-c") == 0 && isNum(argv[2]) && isNum(argv[4]) && isOperator(argv[3])) {
-        int num1 = *argv[2];
-        int num2 = *argv[4];
-        char operator = *argv[3];
-        Calc(num1, num2, operator);
+        printf("%d", calc(num1, num2, &operator));
+        //printf(result)
     }
     
     else if (argc == 6 && strcmp(argv[1], "-c") == 0 && isNum(argv[2]) && isNum(argv[4]) && isOperator(argv[3])) {
         if ( strcmp(argv[5], "-x") == 0) {
-            Hex();
-        }
-        else if (strcmp(argv[5], "-o") == 0) {
-            Octal();
+            printf("%p", calc(num1, num2, &operator));
+            //hex();
+        } else if (strcmp(argv[5], "-o") == 0) {
+            printf("%o", calc(num1, num2, &operator));
+            //octal()
         }
     }
     
